@@ -1,4 +1,5 @@
 <script>
+  import { base } from '$app/paths';
   let isMenuOpen = $state(false);
 
   function toggleMenu() {
@@ -13,10 +14,12 @@
 <header class="navbar">
   <div class="container navbar-content">
     <a href="#home" class="logo" onclick={closeMenu}>
-      LCID
+      <img src="{base}/images/logo-svg.svg" alt="LCID Logo" class="logo-img" />
     </a>
 
+
     <button class="hamburger" aria-label="Menu" onclick={toggleMenu} aria-expanded={isMenuOpen}>
+
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
@@ -48,20 +51,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
-    padding: 0 1rem;
+    height: 80px;
+    padding: 0 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary);
-    text-decoration: none;
-    letter-spacing: 1px;
-    z-index: 1001; /* Above mobile menu overlay if needed */
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+    overflow: hidden;
+    height: 80px; /* Aligné sur la hauteur de la navbar pour un maximum d'espace */
   }
+
+  .logo-img {
+    height: 230px; /* On réduit très légèrement le zoom pour que le logo "respire" mieux dans les 80px */
+    width: auto;
+    margin-top: 5px; /* Ajustement fin pour ne rien couper en haut ni en bas */
+    transition: all 0.3s ease;
+  }
+
+  .logo:hover .logo-img {
+    transform: scale(1.05);
+  }
+
+
+
 
   nav {
     display: flex;
@@ -83,16 +99,19 @@
 
   /* Special style for Contact button in navbar */
   nav .btn-contact {
-    padding: 0.5rem 1.25rem;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--secondary);
+    color: #1a1a1a;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s ease;
   }
 
   nav .btn-contact:hover {
-    color: white; /* Override default hover */
-    background-color: var(--primary-dark);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(252, 203, 14, 0.4);
+    background-color: #f0c000;
   }
 
   /* Hamburger Menu */

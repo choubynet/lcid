@@ -6,17 +6,19 @@
     <h2 class="section-title">Notre Histoire</h2>
     <div class="story-content">
       <p>
-        Fondée en 1993, LCID est née de la volonté d'apporter des solutions concrètes aux problématiques informatiques des entreprises de transport. 
-        Depuis plus de 30 ans, nous évoluons avec les technologies pour offrir des outils toujours plus performants.
+        Créée en Rhône-Alpes en 1995, LCID est une entreprise d'édition de logiciels spécialisés dans le transport et la logistique.
+        Sa gamme de produits s'est constamment nourrie des nombreux partenariats et rencontres professionnelles, l'expertise acquise depuis bientôt trois décennies permet de répondre aux diverses attentes des transporteurs.
       </p>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Nos logiciels permettent de gérer les différentes activités du transport de marchandises (messagerie, lot, affrètement, conteneurs, citernes, malaxeurs, bennes, exceptionnel, multi-modal...).
+        La facturation diverse, la dématérialisation, les interfaces et de nombreuses statistiques permettent entre autres une gestion optimisée de toute activité professionnelle du transport.
       </p>
       <p>
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Nunc aliquet, justo non commodo congue, velit sem pulvinar enim, ac eleifend mi augue ut purus.
+        De nombreux modules s'ajoutent aux logiciels "Exploitation/Facturation" pour former une gamme complète de gestion (Parc, Consignations, Stockage, EDI, Extranet, Flashage, GEID, Plannings, Géo-localisation, CHORUS Pro, application Mobile...).
+      </p>
+      <p>
+        Nos solutions sont adaptées à la demande afin de "coller" au mieux aux besoins des utilisateurs.<br>
+        Vos spécificités sont intégrées aux fonctionnalités des outils. Cette souplesse constitue un atout majeur pour votre satisfaction au quotidien.
       </p>
     </div>
   </div>

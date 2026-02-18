@@ -3,9 +3,9 @@
 
 <section id="technologies" class="section">
   <div class="container">
-    <h2 class="section-title">Environnement Technique</h2>
-    <p class="intro">
-      Nos solutions s'appuient sur des technologies robustes et éprouvées pour garantir la pérennité de vos outils.
+    <h2 class="section-title">Découvez qui se cache "sous le capot" !</h2>
+    <p class="section-intro">
+      Puissance, fiabilité et sécurité !
     </p>
 
     <div class="tech-grid">
@@ -16,7 +16,7 @@
         <ul class="tech-list">
           <li><strong>Serveurs :</strong> Windows Server 2012 ou + récent.</li>
           <li><strong>Clients :</strong> Windows 8, 10 et 11.</li>
-          <li>Serveur dédié, machine virtuelle, hébergement.</li>
+          <li>Système serveur dédié, machine virtuelle, hébergement.</li>
         </ul>
       </div>
 
@@ -41,8 +41,8 @@
         <div class="tech-icon">🛡️</div>
         <h3>Télé-assistance</h3>
         <p>
-          Nous disposons d'un outil propriétaire afin d'assurer les prises de main à distance sécurisées avec 
-          <strong>cryptage 128 bits</strong>.
+          Nous disposons d'un outil propriétaire afin d'assurer les prises de main à distance sur les postes clients.
+          Il fonctionne en mode sécurisé avec <strong>cryptage 128 bits</strong>.
         </p>
       </div>
     </div>
@@ -55,24 +55,7 @@
 
 <style>
   .section {
-    background-color: var(--primary-dark);
-    color: white;
-  }
-
-  .section-title {
-    color: white;
-  }
-  
-  .section-title::after {
-    background-color: white;
-  }
-
-  .intro {
-    max-width: 700px;
-    margin: 0 auto 3rem;
-    text-align: center;
-    color: rgba(255,255,255,0.9);
-    font-size: 1.1rem;
+    background-color: var(--bg-light);
   }
 
   .tech-grid {
@@ -83,53 +66,58 @@
   }
 
   .tech-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    text-align: center;
   }
 
   .tech-card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   }
 
   .tech-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
   }
 
   h3 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: white;
+    color: var(--text-main);
   }
 
   p {
     line-height: 1.6;
-    color: rgba(255,255,255,0.85);
+    color: var(--text-light);
   }
 
   .tech-list {
     list-style: none;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     padding: 0;
     text-align: left;
     font-size: 0.95rem;
   }
 
   .tech-list li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     padding-left: 1.5rem;
     position: relative;
+    color: var(--text-main);
   }
 
   .tech-list li::before {
     content: '→';
     position: absolute;
     left: 0;
-    color: rgba(255,255,255,0.6);
+    color: var(--primary);
+    font-weight: bold;
   }
 
   .footer-note {
@@ -137,6 +125,7 @@
     font-style: italic;
     font-weight: 500;
     margin-top: 1rem;
+    color: var(--text-light);
   }
 
   @media (max-width: 768px) {

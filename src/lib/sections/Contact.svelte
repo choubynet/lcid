@@ -14,7 +14,8 @@
 
 <section id="contact" class="section">
   <div class="container">
-    <h2 class="section-title">Contactez-nous</h2>
+    <h2 class="section-title">Contactez-nous !</h2>
+    <p class="section-intro">Par téléphone, par mail.</p>
     
     <div class="contact-wrapper">
         <div class="contact-info">
@@ -23,7 +24,7 @@
             
             <div class="info-item">
                 <strong>Adresse</strong>
-                <p>123 Rue de l'Innovation<br>75000 Paris, France</p>
+                <p>4 rue de Bayeux<br>14480 Ponts sur Seulles, France</p>
             </div>
             
             <div class="info-item">
@@ -197,10 +198,22 @@
   .block-btn {
     width: 100%;
     border: none;
-    padding: 1rem;
+    padding: 1.1rem;
     font-size: 1rem;
-    border-radius: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
     margin-top: 0.5rem;
+    background-color: var(--secondary);
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+  }
+
+  .block-btn:hover:not(:disabled) {
+    background-color: #f0c000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(252, 203, 14, 0.3);
   }
   
   .block-btn:disabled {

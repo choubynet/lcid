@@ -1,20 +1,21 @@
 <script>
+  import { base } from '$app/paths';
 </script>
 
-<section id="home" class="hero">
+<section id="home" class="hero" style="background-image: url('{base}/images/truck2.jpg');">
   <div class="container hero-content">
+
     <h1 class="hero-title">
       LCID
       <span>Informatique et développement</span>
     </h1>
     <p class="hero-text">
-        Votre partenaire de confiance pour la transformation numérique. 
-        Expertise technique et solutions sur mesure pour accompagner votre croissance.
-        Spécialiste en logistique et transport depuis 30 ans.
+        Des solutions informatiques pour toutes vos activités logistiques.<br>
+        30 années d'expérience au service des transporteurs
     </p>
     <div class="actions">
-      <a href="#contact" class="btn">Nous Contacter</a>
-      <a href="#services" class="btn btn-outline">Nos Services</a>
+      <a href="#products" class="btn">Découvrir nos solutions</a>
+      <a href="#contact" class="btn btn-outline">Nous Contacter</a>
     </div>
   </div>
   <div class="hero-overlay"></div>
@@ -28,7 +29,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('/images/truck2.jpg');
+    /* background-image moved to inline style for dynamic base path */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -38,12 +39,14 @@
   }
 
 
+
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(0, 83, 122, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
+    background: linear-gradient(135deg, rgba(0, 83, 122, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
     z-index: 1;
   }
+
 
   .hero-content {
     position: relative;
