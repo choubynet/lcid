@@ -1,21 +1,46 @@
 <script>
     let formStatus = $state('idle'); // idle, submitting, success, error
+    let errorMessage = $state('');
 
-    function handleSubmit(event) {
+    // -- CONFIGURATION --
+    // Option 1: Formspree (recommandé) — Créez un compte gratuit sur https://formspree.io
+    //           puis remplacez 'YOUR_FORM_ID' par votre identifiant de formulaire.
+    // Option 2: Autre endpoint API de votre choix.
+    const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+    async function handleSubmit(event) {
         event.preventDefault();
         formStatus = 'submitting';
+        errorMessage = '';
         
-        // Simulating network request
-        setTimeout(() => {
-            formStatus = 'success';
-        }, 1500);
+        const formData = new FormData(event.target);
+
+        try {
+            const response = await fetch(FORM_ENDPOINT, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                formStatus = 'success';
+                event.target.reset();
+            } else {
+                const data = await response.json();
+                errorMessage = data?.errors?.map(e => e.message).join(', ') || 'Une erreur est survenue.';
+                formStatus = 'error';
+            }
+        } catch {
+            errorMessage = 'Impossible de joindre le serveur. Vérifiez votre connexion.';
+            formStatus = 'error';
+        }
     }
 </script>
 
 <section id="contact" class="section">
   <div class="container">
-    <h2 class="section-title">Contactez-nous !</h2>
-    <p class="section-intro">Par téléphone, par mail.</p>
+    <h2 class="section-title">Parlons de votre projet</h2>
+    <p class="section-intro">Devis, démonstration ou simple question : nous répondons sous 24h.</p>
     
     <div class="contact-wrapper">
         <div class="contact-info">
@@ -24,12 +49,12 @@
             
             <div class="info-item">
                 <strong>Adresse</strong>
-                <p>4 rue de Bayeux<br>14480 Ponts sur Seulles, France</p>
+                <p>14 rue de Bayeux, Tierceville<br>14480 Ponts sur Seulles, France</p>
             </div>
             
             <div class="info-item">
                 <strong>Email</strong>
-                <p><a href="mailto:contact@lcid.fr">contact@lcid.fr</a></p>
+                <p><a href="mailto:contact@lci-developpements.fr">contact@lci-developpements.fr</a></p>
             </div>
             
             <div class="info-item">
@@ -46,6 +71,12 @@
                     <button class="btn btn-outline" onclick={() => formStatus = 'idle'}>Envoyer un autre message</button>
                 </div>
             {:else}
+                {#if formStatus === 'error'}
+                    <div class="error-message">
+                        <p>⚠️ {errorMessage}</p>
+                        <button class="btn btn-small" onclick={() => formStatus = 'idle'}>Réessayer</button>
+                    </div>
+                {/if}
                 <form onsubmit={handleSubmit} class="contact-form">
                     <div class="form-row">
                         <div class="form-group sm">
@@ -231,6 +262,27 @@
     margin-bottom: 1rem;
   }
 
+  .error-message {
+    background: #fff3f3;
+    border: 1px solid #ffcdd2;
+    color: #c62828;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .error-message p { margin: 0; font-size: 0.9rem; }
+
+  .btn-small {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
   @media (max-width: 900px) {
     .contact-wrapper {
       grid-template-columns: 1fr;
@@ -244,6 +296,9 @@
         gap: 0;
     }
     .form-group.sm { flex: 1; }
+    .contact-form-wrapper {
+      padding: 1.25rem;
+    }
   }
 </style>
 

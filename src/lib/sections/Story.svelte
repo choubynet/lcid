@@ -3,7 +3,7 @@
 
 <section id="story" class="section">
   <div class="container">
-    <h2 class="section-title">Notre Histoire</h2>
+    <h2 class="section-title">30 ans d'expertise au service du transport</h2>
     <div class="story-content">
       <p>
         Créée en Rhône-Alpes en 1995, LCID est une entreprise d'édition de logiciels spécialisés dans le transport et la logistique.
@@ -32,13 +32,14 @@
   .story-content {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
   }
 
   p {
     margin-bottom: 1.5rem;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--text-light);
+    line-height: 1.8;
   }
 
   p:last-child {

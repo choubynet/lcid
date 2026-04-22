@@ -14,22 +14,22 @@
 <header class="navbar">
   <div class="container navbar-content">
     <a href="#home" class="logo" onclick={closeMenu}>
-      <img src="{base}/images/logo-svg.svg" alt="LCID Logo" class="logo-img" />
+      <img src="{base}/images/logo.png" alt="LCID Logo" class="logo-img" />
     </a>
 
 
-    <button class="hamburger" aria-label="Menu" onclick={toggleMenu} aria-expanded={isMenuOpen}>
+    <button class="hamburger" aria-label="Menu" onclick={toggleMenu} aria-expanded={isMenuOpen} aria-controls="main-menu">
 
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
 
-    <nav class:open={isMenuOpen}>
+    <nav id="main-menu" class:open={isMenuOpen}>
       <a href="#home" onclick={closeMenu}>Accueil</a>
-      <a href="#story" onclick={closeMenu}>Notre histoire</a>
-      <a href="#products" onclick={closeMenu}>Produits</a>
+      <a href="#products" onclick={closeMenu}>Solutions</a>
       <a href="#services" onclick={closeMenu}>Services</a>
+      <a href="#story" onclick={closeMenu}>Notre histoire</a>
       <a href="#technologies" onclick={closeMenu}>Technologies</a>
       <a href="#contact" class="btn-contact" onclick={closeMenu}>Contact</a>
     </nav>
@@ -51,8 +51,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
-    padding: 0 1.5rem;
+    height: 70px;
+    padding: 0 1rem;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -61,14 +61,12 @@
     display: flex;
     align-items: center;
     z-index: 1001;
-    overflow: hidden;
-    height: 80px; /* Aligné sur la hauteur de la navbar pour un maximum d'espace */
   }
 
   .logo-img {
-    height: 230px; /* On réduit très légèrement le zoom pour que le logo "respire" mieux dans les 80px */
+    height: 40px;
     width: auto;
-    margin-top: 5px; /* Ajustement fin pour ne rien couper en haut ni en bas */
+    border-radius: 4px;
     transition: all 0.3s ease;
   }
 

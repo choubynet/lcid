@@ -1,14 +1,13 @@
 <footer class="footer">
   <div class="container footer-content">
     <div class="footer-logo">
-      LCID
+      LCID Informatique
     </div>
     <div class="footer-links">
       <a href="#home">Accueil</a>
+      <a href="#products">Solutions</a>
       <a href="#services">Services</a>
-      <a href="#products">Produits</a>
       <a href="#contact">Contact</a>
-      <a href="#">Mentions Légales</a>
     </div>
     <p class="copyright">© {new Date().getFullYear()} LCID Informatique - Tous droits réservés.</p>
 
@@ -33,12 +32,6 @@
     font-weight: 800;
     font-size: 1.5rem;
     letter-spacing: 2px;
-  }
-
-  .footer-info {
-    color: #888;
-    font-size: 0.95rem;
-    margin-top: -0.5rem;
   }
 
   .footer-links {

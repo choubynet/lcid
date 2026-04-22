@@ -67,15 +67,17 @@
 
 <section id="services" class="section">
   <div class="container">
-    <h2 class="section-title">Un service "sur mesure" pour une optimisation fonctionnelle</h2>
-    <p class="section-intro">Toutes nos compétences pour la mise en route de votre gestion transport.</p>
+    <h2 class="section-title">Un accompagnement complet, de l'installation au quotidien</h2>
+    <p class="section-intro">Conseil, formation, développement sur mesure et maintenance incluse.</p>
     
     <div class="services-grid">
-      {#each services as service}
+      {#each services as service (service.id)}
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <div 
           class="service-card" 
           class:clickable={service.id === 'formation'}
           onclick={() => service.id === 'formation' && (showFormationDetails = true)}
+          onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && service.id === 'formation' && (showFormationDetails = true)}
           role={service.id === 'formation' ? 'button' : 'article'}
           tabindex={service.id === 'formation' ? 0 : -1}
         >
@@ -93,8 +95,12 @@
 
     <!-- Modal for Formation Details -->
     {#if showFormationDetails}
-      <div class="modal-overlay" onclick={() => showFormationDetails = false} role="button" tabindex="0">
-        <div class="modal-content" onclick={(e) => e.stopPropagation()} role="article">
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_interactive_supports_focus -->
+      <div class="modal-overlay" onclick={() => showFormationDetails = false} onkeydown={(e) => e.key === 'Escape' && (showFormationDetails = false)} role="dialog" aria-modal="true">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div class="modal-content" onclick={(e) => e.stopPropagation()}>
           <button class="close-btn" onclick={() => showFormationDetails = false}>&times;</button>
           
           <div class="modal-header">
@@ -109,13 +115,13 @@
           <div class="modal-body">
             <h3>Programmes de formation</h3>
             <div class="programs-list">
-              {#each programs as program}
+              {#each programs as program (program.file)}
                 <div class="program-item">
                   <div class="program-info">
                     <span class="program-name">{program.name}</span>
                     <span class="program-stats">{program.details}</span>
                   </div>
-                  <a href="{base}/pdf/{program.file}" download="{program.file}" class="download-btn" title="Télécharger le PDF">
+                  <a href="{base}/pdf/{program.file}" download="{program.file}" class="download-btn" title="Télécharger le PDF" rel="external">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                   </a>
                 </div>
@@ -146,7 +152,7 @@
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
   }
@@ -374,6 +380,25 @@
       flex-direction: column;
       text-align: center;
       padding: 1.5rem;
+    }
+    .services-footer {
+      padding: 2rem 1.5rem;
+    }
+    .services-footer .highlight {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .service-card {
+      padding: 1.25rem;
+    }
+    .services-footer {
+      padding: 1.5rem 1rem;
+      border-radius: 12px;
+    }
+    .services-footer p {
+      font-size: 0.95rem;
     }
   }
 </style>

@@ -3,9 +3,9 @@
 
 <section id="technologies" class="section">
   <div class="container">
-    <h2 class="section-title">Découvez qui se cache "sous le capot" !</h2>
+    <h2 class="section-title">Une infrastructure fiable et éprouvée</h2>
     <p class="section-intro">
-      Puissance, fiabilité et sécurité !
+      Windows, HyperFile, Windev : des technologies solides pour des performances au quotidien.
     </p>
 
     <div class="tech-grid">
@@ -60,7 +60,7 @@
 
   .tech-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
   }
@@ -131,6 +131,9 @@
   @media (max-width: 768px) {
     .tech-grid {
       grid-template-columns: 1fr;
+    }
+    .tech-card {
+      padding: 1.75rem;
     }
   }
 </style>

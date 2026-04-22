@@ -1,523 +1,394 @@
 <script>
   import { base } from '$app/paths';
-  let selectedItem = $state(null);
   let showModules = $state(false);
+  let selectedModule = $state(null);
 
-  let products = [
+  const moduleCategories = [
     {
-      type: 'product',
-      id: "basic",
-      title: "Basic",
-      model: "FT5G",
-      description: "Le TMS Facturation Transport d'une efficacité redoutable !",
-      icon: "🔹",
-      features: [
-        "Affrètements (saisie, taxation automatique, émission confirmation...)",
-        "Transports (saisie, taxation automatique, impression récépissés, étiquettes, incidents...)",
-        "Opérations diverses",
-        "Facturation",
-        "Validation achats",
-        "Interface comptable",
-        "Statistiques"
+      label: '📡 Échanges & EDI',
+      modules: [
+        { title: 'EDI', desc: 'Normes INOVERT, CalvaEdi, Ftp, Extranet', logos: [{ src: 'calva-logo.jpg', link: 'https://www.calvaedi.com/', alt: 'CalvaEdi' }], features: ['Norme INOVERT / Normes spécifiques / Paramétrable', 'Echanges CalvaEdi, Ftp, Réseau, Extranet', 'Réception et Intégration des OT du donneur d\'ordre', 'Emission des OT vers sous-traitant', 'Retour d\'information (sous-traitant, donneur d\'ordre, Emargés)'] },
+        { title: 'Extranet', desc: 'Portail Web clients', logos: [], features: ['Consultation des remises, Retour d\'information, Historique', 'Recherche multicritère, filtres cumulatifs', 'Visualisation et téléchargement récépissés émargés', 'Litiges, anomalies, incidents, photos, Messagerie'] },
+        { title: 'Chargeur', desc: 'Saisie OT en ligne par vos clients', logos: [], features: ['Portail web pour vos clients', 'Saisie des OT / Impression des étiquettes', 'Emission des OT (EDI), bordereau pdf', 'Intégration du retour d\'informations / Récépissés émargés', 'Infos Facturation, facture Pdf, Historique'] },
+        { title: 'Dépose B2PWEB', desc: 'Bourse de fret', logos: [{ src: 'b2pweb-logo.png', link: 'https://www.b2pweb.com/fr/', alt: 'B2PWeb' }], features: ['Dépose sur Bourse de Fret via API "Post"', 'Service de Dépose d\'offres B2PWeb', 'Création, Modification, Rafraichissement et Suppression des offres'] },
+        { title: 'Chorus Pro', desc: 'Facturation électronique B2G', logos: [], features: ['Dépose des factures numériques sur le portail Chorus Pro', 'Gestion émises/à émettre, Filtres multicritères', 'Sélection des factures, Fichiers joints', 'Cycle de vie des factures'] },
+        { title: 'Factur-X', desc: 'Déjà prêt pour la facturation électronique', logos: [], features: ['Facturation électronique B2B', 'Emission des factures au format Factur-x vers la plateforme agréée de votre choix'] },
       ]
     },
     {
-      type: 'product',
-      id: "essentiel",
-      title: "Essentiel",
-      model: "TP5G",
-      description: "Son ergonomie vous permet de gérer vos transports dans la plus grande simplicité.",
-      icon: "💎",
-      features: [
-        "Affrètements (saisie, taxation automatique, émission confirmation...)",
-        "Transports (saisie, taxation automatique, impression récépissés et lettres de voiture, étiquettes, Rdv, incidents...)",
-        "Location de véhicule avec chauffeur",
-        "Opérations diverses",
-        "Rapports d'arrivage",
-        "Gestion chargement (par véhicule, chauffeur, ligne, Optimisation Google API, plan/liste de chargement, bordereaux)",
-        "SAV (bordereau retour chauffeur, souffrances, re-livraisons, retours, incidents, litiges)",
-        "Facturation (port payé, port du, avoirs, dématérialisation - envoi mail, relevés, encaissements, relances semi-automatiques)",
-        "Validation achats, virements SEPA",
-        "Interface comptable",
-        "Statistiques périodiques (CA, achat, marge, quantités, unités, géographiques, codes UN)"
+      label: '📱 Mobilité & Traçabilité',
+      modules: [
+        { title: 'Route Mobile', desc: 'Suivi tournées chauffeurs', logos: [{ src: 'android-logo.png', alt: 'Android' }], features: ['Suivi de la Tournée du chauffeur (Cheminement ou Planning journalier)', 'Gestion des étapes (Statuts, Anomalies, Photos, Signature)', 'Accès sécurisé et Paramétrages visuels', 'Mise à jour automatique des données', 'Suivi Gps sur carte Google / Historique des itinéraires'] },
+        { title: 'Flashage', desc: 'Validation colis sur quai', logos: [{ src: 'android-logo.png', alt: 'Android' }], features: ['Application Mobile de quai de Flashage (androïd)', 'Arrivage et départ de colis', 'Gestion des emplacements', 'Mise à jour en temps réel des informations (wi-fi)'] },
+        { title: 'Géo-localisation', desc: 'Suivi GPS temps réel', logos: [{ src: 'gedmouv-logo.jpg', link: 'https://www.gedmouv.com/solution', alt: 'Gedmouv' }, { src: 'trimble-logo.jpg', link: 'https://www.trimbletl.com/fr/track-and-trace/', alt: 'Trimble' }, { src: 'zf-logo.svg', link: 'https://www.zf.com/products/fr/cv/products_68352.html', alt: 'ZF' }], features: ['Interfaces avec différents systèmes embarqués', 'Envoi des OT, réception du retour d\'informations', 'Suivi Gps sur carte Google', 'Historique des itinéraires'] },
+        { title: 'Rdv SMS/Web', desc: 'Prise de rendez-vous par SMS', logos: [], features: ['Emission SMS (via SmsMode) avec Url portail Web', 'Gestion du rendez-vous sur le portail Web', 'Propositions multiples / Choix du rendez-vous', 'Possibilités d\'accès (véhicule) / Précisions', 'Emission des informations vers l\'exploitation'] },
       ]
     },
     {
-      type: 'product',
-      id: "expert",
-      title: "Expert",
-      model: "XT5G",
-      description: 'TP5G boosté : Toute la puissance des outils "Expert" dans une application dotée de la convivialité du standard TP5G.',
-      icon: "🚀",
-      features: [
-        "Affrètements (demande prix, confirmation...)",
-        "Transports (Module Intégration Coûts, taxation automatique, devis, pro forma, déclaration assurance...)",
-        "Multi-modal : Citerne, Exceptionnel, Maritime-Aérien, Conteneur ...",
-        "Points/véhicules/Transporteurs/articles/options illimités",
-        "Location de véhicule (tarifs, assurance, taxe à l'essieu, périodicité facturation, kms inclus/supp. ...)",
-        "Envoi mail (contrat, certificats, prise en charge et restitution, conditions générales, attestations, facture)",
-        "Plannings jour/nuit, horaire (1/4 heure)...",
-        "Statistiques (exploitants, points de tournée, source clients, tableau de bord CA/activité)",
-        "Gestion des Etablissements secondaires, des Interlocuteurs, des Cadeaux..."
+      label: '📦 Gestion & Logistique',
+      modules: [
+        { title: 'Plannings', desc: 'Transport, Social, Parc...', logos: [], features: ['Nombreuses présentations et fonctionnalités', 'Puits hiérarchiques, bulles ...', 'Horaire, journalier, hebdomadaire, mensuel, jour/nuit ...', 'Transport, Social, Parc ...', 'Impressions documents, récapitulatifs'] },
+        { title: 'GEID', desc: 'Numérisation & OCR des récépissés', logos: [], features: ['Numérisation des Récépissés émargés', 'Reconnaissance OCR (paramétrable par client)', 'Automatique : QR Code, Code_barres', 'Stockage des fichiers dans dossier OT'] },
+        { title: 'Consignations', desc: 'Mouvements, restitutions, stats', logos: [], features: ['Mouvements de clients, tiers et sous-traitants', 'Restitutions, compensations, régularisations', 'Relevé détaillé par client/sous-traitant', 'Facturation, taxation automatique', 'Statistiques crédit-débit par tiers/article'] },
+        { title: 'Parc', desc: 'Véhicules, chauffeurs, carburants', logos: [], features: ['Paramétrage interventions périodiques (date/km/heure)', 'Alertes automatiques', 'Gestion carburants (manuelle, cuve, autoroutes, adblue...)', 'Visites médicales, FCOS...', 'Pièces détachées, sortie de Stock', 'Consommation multi-carburant, Coût kilométrique'] },
+        { title: 'Stock', desc: 'FIFO, inventaires, tarification', logos: [], features: ['Entrées/Sorties en FIFO, libre', 'Intégration paramétrable fichier d\'entrées', 'Inventaires/Soldes par Clients/Familles/Références', 'Tarification auto à la référence/article/famille', 'Facturation par référence, stock résiduel, pic de stockage', 'Statistiques C.A., quantités, rubriques taxation'] },
+        { title: 'Stock Mobile', desc: 'Flashez les Colis en Wi-fi', logos: [{ src: 'android-logo.png', alt: 'Android' }], features: ['Accès direct à la Base de données en Wi-fi', 'Gestion des commandes', 'Saisie entrée, Validation, Mise en emplacement', 'Recherche de colis, Détail, Liste par emplacement', 'Sortie de colis, Gestion des bordereaux'] },
       ]
     }
   ];
 
-  let modules = [
-    {
-      type: 'module',
-      id: 'edi',
-      title: 'EDI',
-      subtitle: 'Echangez les données avec les différents acteurs logistiques',
-      icon: '🔄',
-      features: [
-        'Norme INOVERT / Normes spécifiques / Paramétrable',
-        'Echanges CalvaEdi, Ftp, Réseau, Extranet',
-        'Réception et Intégration des OT du donneur d\'ordre',
-        'Emission des OT vers sous-traitant',
-        'Retour d\'information (Intégration de sous-traitant, Emission vers donneur d\'ordre, Emargés)'
-      ],
-      logos: [
-        { src: 'calva-logo.jpg', link: 'https://www.calvaedi.com/', alt: 'CalvaEdi' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'flashage',
-      title: 'Flashage',
-      subtitle: 'Validez le déplacement d\'un colis en direct !',
-      icon: '📱',
-      features: [
-        'Application Mobile de quai de Flashage (androïd)',
-        'Arrivage et départ de colis',
-        'Gestion des emplacements',
-        'Mise à jour en temps réel des informations (wi-fi)'
-      ],
-      logos: [
-        { src: 'android-logo.png', alt: 'Android' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'plannings',
-      title: 'Plannings',
-      subtitle: 'Planifiez vos transports !',
-      icon: '📅',
-      features: [
-        'Nombreuses présentations et fonctionnalités',
-        'Puits hiérarchiques, bulles ...',
-        'Horaire, journalier, hebdomadaire, mensuel, jour/nuit ...',
-        'Transport, Social, Parc ...',
-        'Impressions documents, récapitulatifs'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'rdv',
-      title: 'Rdv (sms/web)',
-      subtitle: 'Communiquez par SMS',
-      icon: '💬',
-      features: [
-        'Emission SMS (via SmsMode) avec Url pour accès rendez-vous sur le portail Web',
-        'Gestion du rendez-vous sur le portail Web',
-        '- Propositions multiples de rendez-vous',
-        '- Choix du rendez-vous / Proposition dates',
-        '- Possibilités d\'accès (véhicule) / Précisions, observations',
-        'Emission des informations vers l\'exploitation'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'route-mobile',
-      title: 'Route Mobile',
-      subtitle: 'Traçabilité Mobile : Suivez les transports en direct',
-      icon: '🚚',
-      features: [
-        'Suivi de la Tournée du chauffeur (Mode "Cheminement" ou Planning journalier)',
-        'Gestion des étapes (Statuts, Anomalies, Photos, Signature)',
-        'Accès sécurisé et Paramétrages visuels',
-        'Mise à jour automatique des données (Réception OT, Retour d\'information)',
-        'Suivi Gps sur carte Google / Historique des itinéraires'
-      ],
-      logos: [
-        { src: 'android-logo.png', alt: 'Android' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'geoloc',
-      title: 'Géo-localisation',
-      subtitle: 'Suivez, soyez informés !',
-      icon: '📍',
-      features: [
-        'Interfaces avec différents systèmes embarqués',
-        'Envoi des OT, réception du retour d\'informations',
-        'Suivi Gps sur carte Google',
-        'Historique des itinéraires'
-      ],
-      logos: [
-        { src: 'gedmouv-logo.jpg', link: 'https://www.gedmouv.com/solution', alt: 'Gedmouv' },
-        { src: 'trimble-logo.jpg', link: 'https://www.trimbletl.com/fr/track-and-trace/', alt: 'Trimble' },
-        { src: 'zf-logo.svg', link: 'https://www.zf.com/products/fr/cv/products_68352.html', alt: 'ZF' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'geid',
-      title: 'GEID',
-      subtitle: 'Numérisez vos documents !',
-      icon: '📂',
-      features: [
-        'Numérisation des Récépissés émargés',
-        'Reconnaissance OCR (paramétrable par client)',
-        'Automatique : QR Code, Code_barres',
-        'Stockage des fichiers dans dossier OT pour Visualisation, émission EDI/Facture'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'consignations',
-      title: 'Consignations',
-      subtitle: 'Gestion intégrée à l\'Exploitation !',
-      icon: '📦',
-      features: [
-        'Mouvements de clients, tiers et sous-traitants',
-        'Restitutions, compensations, régularisations',
-        'Relevé détaillé par client/sous-traitant, tiers, consignations',
-        'Facturation, taxation automatique',
-        'Statistiques crédit-débit par tiers/article'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'parc',
-      title: 'Parc',
-      subtitle: 'Suivi des véhicules & chauffeurs',
-      icon: '🚛',
-      features: [
-        'Paramétrage interventions périodiques (date/kilométrage/heure)',
-        'Alertes automatiques',
-        'Gestion carburants (manuelle, cuve/pétrolier, autoroutes, adblue...)',
-        'Visites médicales, FCOS...',
-        'Pièces détachées, sortie de Stock',
-        'Consommation multi-carburant, Coût kilométrique'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'stock',
-      title: 'Stock',
-      subtitle: 'Suivez vos références en FIFO ...',
-      icon: '🏭',
-      features: [
-        'Entrées/Sorties en FIFO, libre',
-        'Intégration paramétrable fichier d\'entrées',
-        'Inventaires/Soldes détaillés par Clients/Familles/Références',
-        'Tarification automatique à la référence/article/famille',
-        'Facturation par référence, stock résiduel, pic de stockage...',
-        'Statistiques C.A., quantités, rubriques taxation'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'stock-mobile',
-      title: 'Stock Mobile',
-      subtitle: 'Flashez les Colis ...',
-      icon: '📱',
-      features: [
-        'Accès direct à la Base de données en Wi-fi',
-        'Gestion des commandes',
-        'Saisie entrée, Validation, Mise en emplacement, Déplacement',
-        'Recherche de colis, Détail, Liste par emplacement',
-        'Sortie de colis, Gestion des bordereaux de sortie'
-      ],
-      logos: [
-        { src: 'android-logo.png', alt: 'Android' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'extranet',
-      title: 'Extranet',
-      subtitle: 'Portail Web pour vos clients',
-      icon: '🌐',
-      features: [
-        'Consultation des remises, Retour d\'information, Historique',
-        'Recherche multicritère, filtres cumulatifs',
-        'Visualisation et téléchargement récépissés émargés',
-        'Litiges, anomalies, incidents, photos, Messagerie'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'chargeur',
-      title: 'Chargeur',
-      subtitle: 'Vos clients saisissent en ligne !',
-      icon: '✍️',
-      features: [
-        'Portail web pour vos clients',
-        'Saisie des OT / Impression des étiquettes',
-        'Emission des OT (EDI), bordereau pdf',
-        'Intégration du retour d\'informations / Récépissés émargés',
-        'Infos Facturation, facture Pdf, Historique'
-      ]
-    },
-    {
-      type: 'module',
-      id: 'b2pweb',
-      title: 'Dépose B2PWEB',
-      subtitle: 'Rendez accessibles vos offres de transport !',
-      icon: '🚛',
-      features: [
-        'Dépose sur Bourse de Fret via API "Post"',
-        'Service de Dépose d\'offres B2PWeb',
-        'Création, Modification, Rafraichissement et Suppression des offres'
-      ],
-      logos: [
-        { src: 'b2pweb-logo.png', link: 'https://www.b2pweb.com/fr/', alt: 'B2PWeb' }
-      ]
-    },
-    {
-      type: 'module',
-      id: 'chorus',
-      title: 'Chorus Pro',
-      subtitle: 'Déjà prêt pour la facturation électronique !',
-      icon: '🎫',
-      features: [
-        'Dépose des factures numériques sur le portail Chorus Pro',
-        'Gestion émises/à émettre, Filtres multicritères',
-        'Sélection des factures, Fichiers joints',
-        'Cycle de vie des factures'
-      ]
-    }
-  ];
-
-  function openModal(item) {
-    selectedItem = item;
+  function openModuleModal(mod) {
+    selectedModule = mod;
     document.body.style.overflow = 'hidden';
   }
 
-  function closeModal() {
-    selectedItem = null;
+  function closeModuleModal() {
+    selectedModule = null;
     document.body.style.overflow = '';
+  }
+
+  function handleKeydown(e) {
+    if (e.key === 'Escape') {
+      if (selectedModule) closeModuleModal();
+    }
   }
 </script>
 
 
 <section id="products" class="section">
   <div class="container">
-    <h2 class="section-title">Notre gamme de progiciels transport & logistique</h2>
-    <p class="section-intro">Configurés pour une optimisation idéale de votre activité.</p>
-    
-    <div class="grid">
-      {#each products as product}
-        <button class="card" onclick={() => openModal(product)}>
-          <div class="icon">{product.icon}</div>
-          <div class="model-tag">{product.model}</div>
-          <h3>{product.title}</h3>
-          <p>{product.description}</p>
-          <span class="learn-more">Voir les détails →</span>
-        </button>
-      {/each}
+    <h2 class="section-title">Choisissez la solution adaptée à votre activité</h2>
+    <p class="section-intro">3 versions pour couvrir tous vos besoins, de la facturation à la gestion complète.</p>
+
+    <div class="pricing-grid">
+
+      <!-- BASIC -->
+      <div class="pricing-card">
+        <div class="card-header">
+          <span class="model-tag">FT5G</span>
+          <h3>Basic</h3>
+          <p class="card-desc">Facturation Transport : l'essentiel pour démarrer</p>
+        </div>
+        <div class="card-body">
+          <ul class="features">
+            <li>Affrètements (saisie, taxation auto, confirmation)</li>
+            <li>Transports (récépissés, étiquettes, incidents)</li>
+            <li>Opérations diverses</li>
+            <li>Facturation</li>
+            <li>Validation achats</li>
+            <li>Interface comptable</li>
+            <li>Statistiques</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <a href="#contact" class="cta-btn">Demander un devis</a>
+        </div>
+      </div>
+
+      <!-- ESSENTIEL -->
+      <div class="pricing-card featured">
+        <div class="badge">Le + populaire</div>
+        <div class="card-header">
+          <span class="model-tag">TP5G</span>
+          <h3>Essentiel</h3>
+          <p class="card-desc">Exploitation complète pour les professionnels du transport</p>
+        </div>
+        <div class="card-body">
+          <p class="includes">Tout ce qu'offre <strong>Basic</strong>, plus :</p>
+          <ul class="features">
+            <li>Lettres de voiture, Rdv intégrés</li>
+            <li>Location de véhicule avec chauffeur</li>
+            <li>Rapports d'arrivage</li>
+            <li>Gestion chargement (véhicule, chauffeur, Google API)</li>
+            <li>SAV complet (souffrances, re-livraisons, litiges)</li>
+            <li>Facturation avancée (dématérialisation, relances auto)</li>
+            <li>Virements SEPA</li>
+            <li>Statistiques périodiques (CA, marge, géo)</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <a href="#contact" class="cta-btn cta-featured">Demander un devis</a>
+        </div>
+      </div>
+
+      <!-- EXPERT -->
+      <div class="pricing-card">
+        <div class="card-header">
+          <span class="model-tag">XT5G</span>
+          <h3>Expert</h3>
+          <p class="card-desc">Puissance maximale, sans compromis</p>
+        </div>
+        <div class="card-body">
+          <p class="includes">Tout ce qu'offre <strong>Essentiel</strong>, plus :</p>
+          <ul class="features">
+            <li>Multi-modal (Citerne, Maritime, Conteneur...)</li>
+            <li>Points / véhicules / articles illimités</li>
+            <li>Module Intégration Coûts, devis, pro forma</li>
+            <li>Location avancée (taxe essieu, kms inclus/supp.)</li>
+            <li>Envoi mail auto (contrats, certificats, factures)</li>
+            <li>Plannings jour/nuit, horaire (1/4h)</li>
+            <li>Statistiques avancées & tableau de bord</li>
+            <li>Gestion Établissements secondaires</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <a href="#contact" class="cta-btn">Demander un devis</a>
+        </div>
+      </div>
     </div>
 
-    <!-- Modules Section -->
+    <!-- Modules -->
     <div class="modules-section">
       <div class="modules-header">
-        <h3 class="modules-title">Modules complémentaires</h3>
-        <p class="modules-intro">Personnalisez votre solution avec nos modules experts.</p>
+        <h3 class="modules-title">Complétez avec nos modules experts</h3>
+        <p class="modules-intro">16 modules pour personnaliser votre solution selon vos besoins métier.</p>
         <button class="toggle-btn" onclick={() => showModules = !showModules}>
-          {showModules ? 'Réduire la liste' : 'Découvrir nos modules experts'}
+          {showModules ? 'Masquer les modules' : 'Voir tous les modules'}
           <span class="chevron" style="transform: rotate({showModules ? '180deg' : '0deg'})">▼</span>
         </button>
       </div>
 
       {#if showModules}
-        <div class="modules-grid">
-          {#each modules as module}
-            <button class="module-card" onclick={() => openModal(module)}>
-              <div class="module-iconText">
-                <span class="m-icon">{module.icon}</span>
-                <h4>{module.title}</h4>
+        <div class="modules-content">
+          {#each moduleCategories as cat (cat.label)}
+            <div class="module-category">
+              <h4 class="cat-label">{cat.label}</h4>
+              <div class="modules-grid">
+                {#each cat.modules as mod (mod.title)}
+                  <button class="module-card" onclick={() => openModuleModal(mod)}>
+                    <h5>{mod.title}</h5>
+                    <p>{mod.desc}</p>
+                    <span class="module-link">Détails →</span>
+                  </button>
+                {/each}
               </div>
-              <p>{module.subtitle}</p>
-              <span class="module-link">Détails →</span>
-            </button>
+            </div>
           {/each}
         </div>
       {/if}
     </div>
 
-    <!-- Unified Details Modal -->
-    {#if selectedItem}
-      <div class="modal-overlay" onclick={closeModal} role="button" tabindex="0">
-        <div class="modal-content" onclick={(e) => e.stopPropagation()} role="article">
-          <button class="close-btn" onclick={closeModal}>&times;</button>
-          
+    <!-- Module Modal -->
+    {#if selectedModule}
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_interactive_supports_focus -->
+      <div class="modal-overlay" onclick={closeModuleModal} onkeydown={handleKeydown} role="dialog" aria-modal="true">
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div class="modal-content" onclick={(e) => e.stopPropagation()}>
+          <button class="close-btn" onclick={closeModuleModal}>&times;</button>
           <div class="modal-header">
-            <div class="icon">{selectedItem.icon}</div>
-            <div>
-              <h3>{selectedItem.title}</h3>
-              {#if selectedItem.type === 'product'}
-                <span class="model-id">Référence : {selectedItem.model}</span>
-              {:else}
-                <span class="model-id">{selectedItem.subtitle}</span>
-              {/if}
-            </div>
+            <h3>{selectedModule.title}</h3>
+            <span class="modal-subtitle">{selectedModule.desc}</span>
           </div>
+          <ul class="modal-features">
+            {#each selectedModule.features as feature, i (i)}
+              <li>{feature}</li>
+            {/each}
+          </ul>
+          {#if selectedModule.logos?.length}
+            <div class="modal-logos">
+              {#each selectedModule.logos as logo (logo.src)}
+                {#if logo.link}
 
-          <div class="modal-body">
-            <div class="features-list">
-              <h4>{selectedItem.type === 'product' ? 'Fonctionnalités incluses :' : 'Détails du module :'}</h4>
-              <ul>
-                {#each selectedItem.features as feature}
-                  <li>{feature}</li>
-                {/each}
-              </ul>
-            </div>
-
-            {#if selectedItem.logos}
-              <div class="modal-logos">
-                {#each selectedItem.logos as logo}
-                  {#if logo.link}
-                    <a href={logo.link} target="_blank" rel="noopener noreferrer" class="logo-link">
-                      <img src="{base}/images/{logo.src}" alt={logo.alt} class="modal-logo-img">
-                    </a>
-                  {:else}
+                  <a href={logo.link} target="_blank" rel="external noopener noreferrer" class="logo-link">
                     <img src="{base}/images/{logo.src}" alt={logo.alt} class="modal-logo-img">
-                  {/if}
-                {/each}
-              </div>
-            {/if}
-          </div>
+                  </a>
+                {:else}
+                  <img src="{base}/images/{logo.src}" alt={logo.alt} class="modal-logo-img">
+                {/if}
+              {/each}
+            </div>
+          {/if}
         </div>
       </div>
     {/if}
-
-    <div class="products-footer">
-        <p>Selon vos besoins en gestion informatique et les modes de transport que vous pratiquez, vous pouvez choisir une configuration logicielle adaptée.</p>
-        
-        <div class="versions-comparison">
-            <div class="v-card">
-                <strong>Version "Basic"</strong>
-                <p>Vous permet de gérer les dossiers d'affrètement, de saisir les transports effectués par vos propres véhicules, puis de les facturer aux clients.</p>
-            </div>
-            <div class="v-card">
-                <strong>Version "Essentiel"</strong>
-                <p>Est complémentée de la gestion de l'exploitation (chargement, enlèvements, livraisons, ...) et du S.A.V. (rapports d'arrivage, souffrances, re-livraisons, retours, litiges, ...).</p>
-            </div>
-            <div class="v-card">
-                <strong>Version "Expert"</strong>
-                <p>Repousse les limites d'un dossier. Ses données sont dynamiques (pas de limite de points, d'articles, de moyens, d'options...). Elle inclut aussi une gestion optimisée de modes de transport particuliers.</p>
-            </div>
-        </div>
-    </div>
 
   </div>
 </section>
 
 <style>
   .section {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
+    background: var(--bg-light);
   }
 
-  .section-title {
-    color: white;
-  }
-
-  .section-title::after {
-    background-color: var(--secondary);
-  }
-
-  .section-intro {
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .grid {
+  .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  .card {
+  .pricing-card {
     background: white;
-    padding: 3rem 2rem;
     border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-    text-align: center;
-    border: 1px solid #eee;
-    cursor: pointer;
-    width: 100%;
+    border: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
 
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    border-color: var(--primary);
+  .pricing-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
   }
 
-  .icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+  .pricing-card.featured {
+    border: 2px solid var(--primary);
+    box-shadow: 0 10px 40px rgba(0, 148, 216, 0.15);
+    transform: scale(1.04);
+    z-index: 1;
+  }
+
+  .pricing-card.featured:hover {
+    transform: scale(1.04) translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0, 148, 216, 0.2);
+  }
+
+  .badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .card-header {
+    padding: 2.5rem 2rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .featured .card-header {
+    padding-top: 3.5rem;
   }
 
   .model-tag {
+    display: inline-block;
     background: var(--bg-light);
     color: var(--primary);
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.85rem;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  h3 {
-    font-size: 1.75rem;
+  .card-header h3 {
+    font-size: 2rem;
     color: var(--text-main);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
-  p {
+  .card-desc {
+    font-size: 0.9rem;
     color: var(--text-light);
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .card-body {
+    padding: 2rem;
     flex-grow: 1;
   }
 
-  .learn-more {
+  .includes {
+    font-size: 0.9rem;
+    color: var(--primary-dark);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .features li {
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-main);
+  }
+
+  .features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
     color: var(--primary);
+    font-weight: bold;
+  }
+
+  .card-footer {
+    padding: 1.5rem 2rem 2rem;
+  }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
     font-weight: 700;
     font-size: 0.95rem;
-    transition: all 0.2s;
-    border-bottom: 2px solid var(--secondary);
-    padding-bottom: 2px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
   }
 
-  .card:hover .learn-more {
-    transform: translateX(5px);
+  .cta-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 148, 216, 0.3);
   }
 
-  /* Modules Section */
+  .cta-featured {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .cta-featured:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+  }
+
+  /* Modules */
   .modules-section {
-    margin-top: 6rem;
+    margin-top: 5rem;
     background: white;
-    padding: 4rem;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    padding: 3.5rem;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
   }
 
   .modules-header {
     text-align: center;
-    margin-bottom: 3rem;
   }
 
   .modules-title {
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     margin-bottom: 0.5rem;
     color: var(--text-main);
   }
@@ -525,190 +396,110 @@
   .modules-intro {
     color: var(--text-light);
     margin-bottom: 2rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .toggle-btn {
     background: var(--secondary);
     color: #1a1a1a;
     border: none;
-    padding: 1rem 2.5rem;
+    padding: 0.85rem 2rem;
     border-radius: 50px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: 700;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 1rem;
-    margin: 0 auto;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(252, 203, 14, 0.3);
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(252, 203, 14, 0.25);
   }
 
   .toggle-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(252, 203, 14, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(252, 203, 14, 0.4);
     background: #f0c000;
   }
 
   .chevron {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     transition: transform 0.3s ease;
+  }
+
+  .modules-content {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2.5rem;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cat-label {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--bg-light);
   }
 
   .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.5rem;
-    animation: fadeIn 0.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+    gap: 1rem;
   }
 
   .module-card {
     background: var(--bg-light);
     border: 1px solid transparent;
-    padding: 1.5rem;
-    border-radius: 12px;
+    padding: 1.25rem;
+    border-radius: 10px;
     text-align: left;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
     width: 100%;
   }
 
   .module-card:hover {
     background: white;
     border-color: var(--primary);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
   }
 
-  .module-iconText {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .m-icon {
-    font-size: 1.5rem;
-  }
-
-  .module-card h4 {
-    margin: 0;
-    font-size: 1.15rem;
+  .module-card h5 {
+    font-size: 1rem;
     color: var(--text-main);
+    margin: 0 0 0.4rem;
   }
 
   .module-card p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-light);
     line-height: 1.4;
-    margin-bottom: 1.5rem;
+    margin: 0 0 1rem;
     flex-grow: 1;
   }
 
   .module-link {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--primary);
     font-weight: 700;
   }
 
-  /* Modal Additions */
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .modal-logos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding: 1.5rem;
-    background: #fdfdfd;
-    border-radius: 12px;
-    justify-content: center;
-    align-items: center;
-    border: 1px dashed #ddd;
-  }
-
-  .modal-logo-img {
-    max-height: 50px;
-    max-width: 150px;
-    object-fit: contain;
-    filter: grayscale(0.2);
-    transition: filter 0.3s, transform 0.3s;
-  }
-
-  .logo-link:hover .modal-logo-img {
-    filter: grayscale(0);
-    transform: scale(1.05);
-  }
-
-  /* Footer and Versions Comparison */
-  .products-footer {
-    margin-top: 5rem;
-    text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding-top: 4rem;
-  }
-
-  .products-footer > p {
-    max-width: 800px;
-    margin: 0 auto 3rem;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: white;
-  }
-
-  .versions-comparison {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    text-align: left;
-  }
-
-  .v-card {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 16px;
-    border-bottom: 5px solid var(--secondary);
-    color: var(--text-main);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  }
-
-  .v-card strong {
-    display: block;
-    font-size: 1.4rem;
-    color: var(--primary-dark);
-    margin-bottom: 0.75rem;
-  }
-
-  .v-card p {
-    font-size: 0.95rem;
-    margin: 0;
-    color: var(--text-main);
-    line-height: 1.6;
-  }
-
-  /* Modal Styles */
+  /* Modal */
   .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -719,78 +510,64 @@
   .modal-content {
     background: white;
     width: 100%;
-    max-width: 650px;
-    max-height: 90vh;
-    border-radius: 20px;
+    max-width: 550px;
+    max-height: 85vh;
+    border-radius: 16px;
     position: relative;
-    padding: 3rem;
+    padding: 2.5rem;
     overflow-y: auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
   }
 
   .close-btn {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1rem;
+    right: 1.25rem;
     background: none;
     border: none;
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: var(--text-light);
     cursor: pointer;
     line-height: 1;
     transition: color 0.2s;
   }
 
-  .close-btn:hover {
-    color: var(--secondary);
-  }
+  .close-btn:hover { color: var(--primary); }
 
   .modal-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid #eee;
-    padding-bottom: 1.5rem;
-  }
-
-  .modal-header .icon {
-    margin-bottom: 0;
   }
 
   .modal-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
     margin-bottom: 0.25rem;
-    font-size: 2rem;
   }
 
-  .model-id {
-    color: var(--primary);
-    font-weight: 700;
+  .modal-subtitle {
+    color: var(--text-light);
     font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
   }
 
-  .features-list h4 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: var(--text-main);
-  }
-
-  .features-list ul {
+  .modal-features {
     list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
     display: grid;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
-  .features-list li {
-    padding-left: 1.75rem;
+  .modal-features li {
+    padding-left: 1.5rem;
     position: relative;
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--text-main);
+    font-size: 0.95rem;
   }
 
-  .features-list li::before {
+  .modal-features li::before {
     content: "✓";
     position: absolute;
     left: 0;
@@ -798,20 +575,61 @@
     font-weight: bold;
   }
 
-  @media (max-width: 600px) {
-    .modules-section {
-      padding: 2rem 1.5rem;
-    }
+  .modal-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    background: var(--bg-light);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .modal-content {
-      padding: 2rem 1.5rem;
+  .modal-logo-img {
+    max-height: 45px;
+    max-width: 130px;
+    object-fit: contain;
+    opacity: 0.75;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .logo-link:hover .modal-logo-img {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 900px) {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      max-width: 450px;
     }
-    
-    .modal-header {
-      flex-direction: column;
-      text-align: center;
-      gap: 1rem;
+    .pricing-card.featured {
+      transform: none;
+      order: -1;
     }
+    .pricing-card.featured:hover {
+      transform: translateY(-4px);
+    }
+    .modules-section {
+      padding: 2.5rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .modules-section { padding: 1.5rem 1rem; }
+    .modal-content { padding: 2rem 1.25rem; }
+    .modules-grid { grid-template-columns: 1fr 1fr; }
+    .modules-title { font-size: 1.35rem; }
+    .toggle-btn { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
+  }
+
+  @media (max-width: 400px) {
+    .modules-grid { grid-template-columns: 1fr; }
+    .pricing-grid { max-width: 100%; }
+    .card-header { padding: 2rem 1.25rem 1.25rem; }
+    .card-body { padding: 1.25rem; }
+    .card-footer { padding: 1rem 1.25rem 1.5rem; }
   }
 </style>
 

@@ -7,6 +7,7 @@
 
 <svelte:head>
 	<link rel="icon" href="{base}/images/logo.jpg" />
+	<link rel="preload" as="image" href="{base}/images/iStock-1198082588.jpg" />
 	<title>LCID - Informatique et Développement</title>
 </svelte:head>
 

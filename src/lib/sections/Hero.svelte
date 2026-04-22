@@ -2,20 +2,20 @@
   import { base } from '$app/paths';
 </script>
 
-<section id="home" class="hero" style="background-image: url('{base}/images/truck2.jpg');">
+<section id="home" class="hero" style="background-image: url('{base}/images/iStock-1198082588.jpg');">
   <div class="container hero-content">
 
     <h1 class="hero-title">
-      LCID
-      <span>Informatique et développement</span>
+      Votre transport,<br>
+      <span class="highlight">piloté avec précision.</span>
     </h1>
     <p class="hero-text">
-        Des solutions informatiques pour toutes vos activités logistiques.<br>
-        30 années d'expérience au service des transporteurs
+        LCID conçoit des logiciels de gestion transport & logistique depuis 30 ans.<br>
+        Exploitation, facturation, traçabilité : une seule suite, zéro compromis.
     </p>
     <div class="actions">
-      <a href="#products" class="btn">Découvrir nos solutions</a>
-      <a href="#contact" class="btn btn-outline">Nous Contacter</a>
+      <a href="#products" class="btn btn-primary">Découvrir nos solutions</a>
+      <a href="#contact" class="btn btn-outline">Demander une démo</a>
     </div>
   </div>
   <div class="hero-overlay"></div>
@@ -24,8 +24,8 @@
 <style>
   .hero {
     position: relative;
-    min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for better mobile support */
+    min-height: 85vh;
+    min-height: 85dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,30 +57,25 @@
   }
 
   .hero-title {
-    font-size: clamp(3rem, 6vw, 5rem);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 800;
     margin-bottom: 1.5rem;
-    line-height: 1.1;
+    line-height: 1.15;
     color: white;
   }
 
-  .hero-title span {
-    display: block;
-    font-size: 0.4em;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-top: 1rem;
-    opacity: 0.9;
+  .hero-title .highlight {
+    color: var(--secondary);
   }
 
   .hero-text {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     margin-bottom: 3rem;
-    opacity: 0.9;
-    max-width: 700px;
+    opacity: 0.95;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.7;
   }
 
   .actions {
@@ -88,6 +83,24 @@
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--secondary);
+    color: #1a1a1a;
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(252, 203, 14, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(252, 203, 14, 0.5);
+    background: #f0c000;
   }
 
   .btn-outline {
