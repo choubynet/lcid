@@ -1,7 +1,7 @@
 <script>
-  import { base } from '$app/paths';
+  import { base } from '$app/paths'
 
-  let showFormationDetails = $state(false);
+  let showFormationDetails = $state(false)
 
   const programs = [
     { name: "Gestion de Stock : Gestion des Commandes avec Flashage", details: "[Satisfaction = 100 %, Réussite = 100 %]", file: "Programme de formation - ST5G - Gestion des commandes de Stockage avec Flashage - 202311.pdf" },
@@ -16,7 +16,7 @@
     { name: "Programme de formation - XT5G - Statistiques Expert", details: "[Satisfaction = 91 %, Réussite = 92 %]", file: "Programme de formation - XT5G - Statistiques Expert.pdf" },
     { name: "Programme de formation - GP5G-TP5G - Rentabilite", details: "[Satisfaction = 85 %, Réussite = 90 %]", file: "Programme de formation - GP5G-TP5G - Rentabilite.pdf" },
     { name: "Gestion du Parc : GP5G", details: "[Satisfaction = 96 %, Réussite = 98 %]", file: "Programme de formation - GP5G - Gestion du Parc - 202405c (1).pdf" }
-  ];
+  ]
 
   const services = [
     {
@@ -49,19 +49,19 @@
       icon: "🛡️",
       text: "Vous bénéficiez d'un service de Maintenance/Assistance (avec suivi des mises à jour sans frais supplémentaires). Notre équipe reste à votre disposition pour toute question/dépannage (coût inclus dans le contrat). Via une connexion haut débit, nous pouvons vous assister en direct sur votre poste."
     }
-  ];
+  ]
 
 
   $effect(() => {
     if (showFormationDetails) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden'
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = ''
     }
     return () => {
-      document.body.style.overflow = '';
-    };
-  });
+      document.body.style.overflow = ''
+    }
+  })
 </script>
 
 

@@ -1,38 +1,38 @@
 <script>
-    let formStatus = $state('idle'); // idle, submitting, success, error
-    let errorMessage = $state('');
+    let formStatus = $state('idle') // idle, submitting, success, error
+    let errorMessage = $state('')
 
     // -- CONFIGURATION --
     // Option 1: Formspree (recommandé) — Créez un compte gratuit sur https://formspree.io
     //           puis remplacez 'YOUR_FORM_ID' par votre identifiant de formulaire.
     // Option 2: Autre endpoint API de votre choix.
-    const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+    const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
 
     async function handleSubmit(event) {
-        event.preventDefault();
-        formStatus = 'submitting';
-        errorMessage = '';
+        event.preventDefault()
+        formStatus = 'submitting'
+        errorMessage = ''
         
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.target)
 
         try {
             const response = await fetch(FORM_ENDPOINT, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
-            });
+            })
 
             if (response.ok) {
-                formStatus = 'success';
-                event.target.reset();
+                formStatus = 'success'
+                event.target.reset()
             } else {
-                const data = await response.json();
-                errorMessage = data?.errors?.map(e => e.message).join(', ') || 'Une erreur est survenue.';
-                formStatus = 'error';
+                const data = await response.json()
+                errorMessage = data?.errors?.map(e => e.message).join(', ') || 'Une erreur est survenue.'
+                formStatus = 'error'
             }
         } catch {
-            errorMessage = 'Impossible de joindre le serveur. Vérifiez votre connexion.';
-            formStatus = 'error';
+            errorMessage = 'Impossible de joindre le serveur. Vérifiez votre connexion.'
+            formStatus = 'error'
         }
     }
 </script>

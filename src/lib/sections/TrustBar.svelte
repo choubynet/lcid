@@ -1,14 +1,15 @@
 <script>
-  // Remplacer ces noms par les vrais noms/logos de vos clients
+  import { base } from '$app/paths';
+
   const clients = [
-    "Client Transport A",
-    "Client Transport B",
-    "Client Logistique C",
-    "Client Messagerie D",
-    "Client Express E",
-    "Client Fret F",
-    "Client Route G",
-    "Client Cargo H"
+    { name: 'Annecybox', src: 'annecybox_4AAA46CA_.png' },
+    { name: 'B2C', src: 'B2C_BCB3A7FE_.png' },
+    { name: 'Félix', src: 'FELIX_764A7072_.png' },
+    { name: 'Glaizot', src: 'Glaizot_6941794C_.png' },
+    { name: 'Huguet', src: 'Huguet2_F9DE164_.jpg' },
+    { name: 'Optivia', src: 'Optivia2_A40374A3_.jpg' },
+    { name: 'Sainthon', src: 'Sainthon_63903D3A_.png' },
+    { name: 'Sotraman', src: 'Sotraman_A82099DD_.png' },
   ];
 </script>
 
@@ -17,11 +18,11 @@
     <p class="trust-label">Ils nous font confiance depuis plus de 30 ans</p>
     <div class="logos-track">
       <div class="logos-slide">
-        {#each clients as client, i (client + '-a-' + i)}
-          <span class="client-name">{client}</span>
+        {#each clients as client, i (client.name + '-a-' + i)}
+          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo" />
         {/each}
-        {#each clients as client, i (client + '-b-' + i)}
-          <span class="client-name">{client}</span>
+        {#each clients as client, i (client.name + '-b-' + i)}
+          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo" />
         {/each}
       </div>
     </div>
@@ -54,25 +55,26 @@
   .logos-slide {
     display: flex;
     gap: 4rem;
+    align-items: center;
     animation: scroll 30s linear infinite;
     width: max-content;
     will-change: transform;
   }
 
-  .client-name {
+  .client-logo {
     flex-shrink: 0;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #bbb;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    padding: 0.5rem 0;
-    transition: color 0.3s;
+    height: 45px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    opacity: 0.6;
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
   }
 
-  .client-name:hover {
-    color: var(--primary);
+  .client-logo:hover {
+    opacity: 1;
+    filter: grayscale(0%);
   }
 
   @keyframes scroll {
@@ -84,6 +86,10 @@
     .logos-slide {
       gap: 3rem;
       animation-duration: 20s;
+    }
+    .client-logo {
+      height: 35px;
+      max-width: 110px;
     }
   }
 </style>

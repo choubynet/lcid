@@ -1,7 +1,8 @@
 <script>
-  import { base } from '$app/paths';
-  let showModules = $state(false);
-  let selectedModule = $state(null);
+  import { base } from '$app/paths'
+
+  let showModules = $state(false)
+  let selectedModule = $state(null)
 
   const moduleCategories = [
     {
@@ -35,21 +36,21 @@
         { title: 'Stock Mobile', desc: 'Flashez les Colis en Wi-fi', logos: [{ src: 'android-logo.png', alt: 'Android' }], features: ['Accès direct à la Base de données en Wi-fi', 'Gestion des commandes', 'Saisie entrée, Validation, Mise en emplacement', 'Recherche de colis, Détail, Liste par emplacement', 'Sortie de colis, Gestion des bordereaux'] },
       ]
     }
-  ];
+  ]
 
   function openModuleModal(mod) {
-    selectedModule = mod;
-    document.body.style.overflow = 'hidden';
+    selectedModule = mod
+    document.body.style.overflow = 'hidden'
   }
 
   function closeModuleModal() {
-    selectedModule = null;
-    document.body.style.overflow = '';
+    selectedModule = null
+    document.body.style.overflow = ''
   }
 
   function handleKeydown(e) {
     if (e.key === 'Escape') {
-      if (selectedModule) closeModuleModal();
+      if (selectedModule) closeModuleModal()
     }
   }
 </script>
@@ -121,7 +122,7 @@
         <div class="card-body">
           <p class="includes">Tout ce qu'offre <strong>Essentiel</strong>, plus :</p>
           <ul class="features">
-            <li>Multi-modal (Citerne, Maritime, Conteneur...)</li>
+            <li>Multi-modal (Citerne, Maritime, Conteneur, Exceptionnel, Négoce ...)</li>
             <li>Points / véhicules / articles illimités</li>
             <li>Module Intégration Coûts, devis, pro forma</li>
             <li>Location avancée (taxe essieu, kms inclus/supp.)</li>
@@ -228,8 +229,10 @@
     border: 1px solid #e5e7eb;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s ease;
     position: relative;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+    backface-visibility: hidden;
     overflow: hidden;
   }
 
@@ -241,13 +244,14 @@
   .pricing-card.featured {
     border: 2px solid var(--primary);
     box-shadow: 0 10px 40px rgba(0, 148, 216, 0.15);
-    transform: scale(1.04);
     z-index: 1;
+    margin: -1rem -0.75rem;
+    padding-bottom: 1.25rem;
   }
 
   .pricing-card.featured:hover {
-    transform: scale(1.04) translateY(-4px);
-    box-shadow: 0 20px 50px rgba(0, 148, 216, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 148, 216, 0.25);
+    transform: translateY(-4px);
   }
 
   .badge {
@@ -605,11 +609,9 @@
       max-width: 450px;
     }
     .pricing-card.featured {
-      transform: none;
       order: -1;
-    }
-    .pricing-card.featured:hover {
-      transform: translateY(-4px);
+      margin: 0;
+      padding-bottom: 0.5rem;
     }
     .modules-section {
       padding: 2.5rem 1.5rem;

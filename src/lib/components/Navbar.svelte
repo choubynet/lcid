@@ -64,7 +64,7 @@
   }
 
   .logo-img {
-    height: 40px;
+    height: 60px;
     width: auto;
     border-radius: 4px;
     transition: all 0.3s ease;

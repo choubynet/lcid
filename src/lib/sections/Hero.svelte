@@ -1,5 +1,5 @@
 <script>
-  import { base } from '$app/paths';
+  import { base } from '$app/paths'
 </script>
 
 <section id="home" class="hero" style="background-image: url('{base}/images/iStock-1198082588.jpg');">
