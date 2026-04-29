@@ -6,7 +6,7 @@
     // Option 1: Formspree (recommandé) — Créez un compte gratuit sur https://formspree.io
     //           puis remplacez 'YOUR_FORM_ID' par votre identifiant de formulaire.
     // Option 2: Autre endpoint API de votre choix.
-    const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'
+    const FORM_ENDPOINT = 'https://formspree.io/f/xeevybrw'
 
     async function handleSubmit(event) {
         event.preventDefault()

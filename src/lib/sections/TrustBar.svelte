@@ -15,14 +15,14 @@
 
 <section class="trust-bar">
   <div class="container">
-    <p class="trust-label">Ils nous font confiance depuis plus de 30 ans</p>
+    <p class="trust-label">De nombreux acteurs du transport nous font confiance</p>
     <div class="logos-track">
       <div class="logos-slide">
         {#each clients as client, i (client.name + '-a-' + i)}
-          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo" />
+          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo logo-{client.name.toLowerCase()}" />
         {/each}
         {#each clients as client, i (client.name + '-b-' + i)}
-          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo" />
+          <img src="{base}/clients/{client.src}" alt={client.name} class="client-logo logo-{client.name.toLowerCase()}" />
         {/each}
       </div>
     </div>
@@ -43,13 +43,14 @@
     letter-spacing: 2px;
     color: var(--text-light);
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem; /* Réduit pour compenser le padding de logos-track */
   }
 
   .logos-track {
     overflow: hidden;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
     -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    padding: 1.5rem 0; /* Crée de l'espace interne pour éviter de couper les logos zoomés */
   }
 
   .logos-slide {
@@ -75,6 +76,26 @@
   .client-logo:hover {
     opacity: 1;
     filter: grayscale(0%);
+    transform: scale(1.05); /* Léger effet de zoom général */
+  }
+
+  /* Ajustements spécifiques par logo */
+  .logo-b2c {
+    transform: scale(1.6);
+  }
+  
+  .logo-b2c:hover {
+    transform: scale(1.7);
+  }
+
+  .logo-sainthon {
+    /* Le logo est très clair/blanc, on le fonce pour être lisible sur fond blanc */
+    filter: invert(1) brightness(0.6);
+  }
+
+  .logo-sainthon:hover {
+    filter: invert(1) brightness(0.2); 
+    transform: scale(1.05);
   }
 
   @keyframes scroll {
